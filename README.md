@@ -1,12 +1,18 @@
 # Win10LockScreenGrabber
 
 This program copy all Windows 10's Spotlight Lock Screen images to a specified
-destination folder. 
+destination folder.
+
+# Version:
+1.1
 
 # Variables:
     folder_wallpapers   (string)    Full path to the destination folder
                                     default: None, that means destination
                                     folder is USERPROFILE\Pictures\LockScreens
+    delete_sources      (boolean)   Whether delete the files from source folder
+                                    or not
+                                    default: False
 
 # Licence
 MIT License
