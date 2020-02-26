@@ -10,6 +10,9 @@ Variables:
     folder_wallpapers   (string)    Full path to the destination folder
                                     default: None, that means destination
                                     folder is USERPROFILE\Pictures\LockScreens
+    delete_sources      (boolean)   Whether delete the files from source folder
+                                    or not
+                                    default: False
 
 ------------------------------------------------------------------------------
 MIT License
@@ -39,7 +42,7 @@ __author__ = 'Richárd Ádám Vécsey Dr.'
 __copyright__ = "Copyright 2020, Win10LockScreenGrabber Project"
 __credits__ = ['Richárd Ádám Vécsey Dr.']
 __license__ = 'MIT'
-__version__ = '1.0'
+__version__ = '1.1'
 __status__ = 'Beta'
 
 
@@ -54,6 +57,9 @@ from platform import platform
 # Whether None, images copy to the default image folder.
 # Eg: folder_wallpapers ='C:\MyFolder\Wallpapers'
 folder_wallpapers = None
+
+# Set this variable True to delete the files from source folder
+delete_sources = False
 
 # Collect environments data
 envdata = environ
@@ -88,7 +94,10 @@ def main():
         # Copy
         # It copies not just file but metadata
         copy2(source_path, destination_path)
-
+        # Delete images if delete_sources is True
+        if delete_sources:
+            os.remove(source_path)
+        
 
        
 if __name__ == "__main__":
