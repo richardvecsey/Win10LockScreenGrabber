@@ -13,7 +13,12 @@ Variables:
     delete_sources      (boolean)   Whether delete the files from source folder
                                     or not
                                     default: False
-
+    width               (int)       Minimum width of copyable image
+                                    Smaller image won't be copy to the
+                                    destination folder
+    height              (int)       Minimum height of copyable image
+                                    Smaller image won't be copy to the
+                                    destination folder
 ------------------------------------------------------------------------------
 MIT License
 
@@ -42,7 +47,7 @@ __author__ = 'Richárd Ádám Vécsey Dr.'
 __copyright__ = "Copyright 2020, Win10LockScreenGrabber Project"
 __credits__ = ['Richárd Ádám Vécsey Dr.']
 __license__ = 'MIT'
-__version__ = '1.1'
+__version__ = '1.2'
 __status__ = 'Beta'
 
 
@@ -53,6 +58,11 @@ from os import environ, listdir, mkdir, path
 from shutil import copy2
 from platform import platform
 
+# other libraries
+import matplotlib.image as mpimg
+
+
+
 # Set this value to the path of your folder that contains wallpapers.
 # Whether None, images copy to the default image folder.
 # Eg: folder_wallpapers ='C:\MyFolder\Wallpapers'
@@ -60,6 +70,10 @@ folder_wallpapers = None
 
 # Set this variable True to delete the files from source folder
 delete_sources = False
+
+# Wallpaper default sizes
+width = 1920
+height = 1080
 
 # Collect environments data
 envdata = environ
@@ -87,6 +101,13 @@ def main():
     for filename in listdir(folder_asset):    
         # Create full source path
         source_path = path.join(folder_asset, filename)
+        # Read the picture for checking it's shape
+        temp_image = mpimg.imread(source_path)
+        # Check shape
+        imgshape = temp_image.shape
+        if imgshape[0] <= width and imgshape[1] <= height:
+            # Skip file if smaller than wallpaper-size
+            continue
         # Add .jpg extension to the file name
         jpegified = filename + '.jpg'
         # Create full destination path
@@ -97,7 +118,7 @@ def main():
         # Delete images if delete_sources is True
         if delete_sources:
             os.remove(source_path)
-        
+
 
        
 if __name__ == "__main__":
