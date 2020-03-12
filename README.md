@@ -4,7 +4,7 @@ This program copy all Windows 10's Spotlight Lock Screen images to a specified
 destination folder.
 
 # Version:
-1.1
+1.2
 
 # Variables:
     folder_wallpapers   (string)    Full path to the destination folder
@@ -13,6 +13,12 @@ destination folder.
     delete_sources      (boolean)   Whether delete the files from source folder
                                     or not
                                     default: False
+    width               (int)       Minimum width of copyable image
+                                    Smaller image won't be copy to the
+                                    destination folder
+    height              (int)       Minimum height of copyable image
+                                    Smaller image won't be copy to the
+                                    destination folder                                    
 
 # Licence
 MIT License
