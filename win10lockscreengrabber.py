@@ -7,18 +7,22 @@ destination folder.
 
 ------------------------------------------------------------------------------
 Variables:
+    delete_destination  (boolean)   Whether delete the non wallpaper-sized 
+                                    images from source folder or not
+                                    default: False
+    delete_sources      (boolean)   Whether delete the files from source folder
+                                    or not
+                                    default: False    
     folder_wallpapers   (string)    Full path to the destination folder
                                     default: None, that means destination
                                     folder is USERPROFILE\Pictures\LockScreens
-    delete_sources      (boolean)   Whether delete the files from source folder
-                                    or not
-                                    default: False
-    width               (int)       Minimum width of copyable image
-                                    Smaller image won't be copy to the
-                                    destination folder
     height              (int)       Minimum height of copyable image
                                     Smaller image won't be copy to the
                                     destination folder
+    width               (int)       Minimum width of copyable image
+                                    Smaller image won't be copy to the
+                                    destination folder
+
 ------------------------------------------------------------------------------
 MIT License
 
@@ -47,14 +51,14 @@ __author__ = 'Richárd Ádám Vécsey Dr.'
 __copyright__ = "Copyright 2020, Win10LockScreenGrabber Project"
 __credits__ = ['Richárd Ádám Vécsey Dr.']
 __license__ = 'MIT'
-__version__ = '1.2'
+__version__ = '1.3'
 __status__ = 'Beta'
 
 
 
 # import section
 # standard library
-from os import environ, listdir, mkdir, path
+from os import environ, listdir, mkdir, path, remove
 from shutil import copy2
 from platform import platform
 
@@ -70,6 +74,10 @@ folder_wallpapers = None
 
 # Set this variable True to delete the files from source folder
 delete_sources = False
+
+# Set this variable True to delete the non wallpaper-sized images from
+# destination folder
+delete_destination = False
 
 # Wallpaper default sizes
 width = 1920
@@ -98,7 +106,7 @@ def main():
         mkdir(folder_destination)
     
     # Collect images and copy them
-    for filename in listdir(folder_asset):    
+    for filename in listdir(folder_asset):
         # Create full source path
         source_path = path.join(folder_asset, filename)
         # Read the picture for checking it's shape
@@ -117,7 +125,18 @@ def main():
         copy2(source_path, destination_path)
         # Delete images if delete_sources is True
         if delete_sources:
-            os.remove(source_path)
+            remove(source_path)
+
+    if delete_destination:
+        # Collect files data from destination folder
+        for filename in listdir(folder_destination):
+            destination_path = path.join(folder_destination, filename)
+            # Read the picture for checking it's shape
+            temp_image = mpimg.imread(destination_path)
+            # Check shape
+            imgshape = temp_image.shape
+            if imgshape[0] <= width and imgshape[1] <= height:
+                remove(destination_path)
 
 
        
