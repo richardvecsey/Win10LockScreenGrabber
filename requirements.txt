@@ -1,0 +1,10 @@
+# Library dependencies for the Win10LockScreenGrabber project
+# You have to install these libraries, before you can run the code:
+# 'pip install -r requirements.txt'
+
+# Standard library dependencies:
+# os
+# shutil
+# platform
+
+matplotlib
